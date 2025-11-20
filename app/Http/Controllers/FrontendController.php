@@ -17,18 +17,24 @@ class FrontendController extends Controller
     /**
      * Halaman Home
      */
-    public function home()
+     public function home()
     {
         $settings = Setting::getRecord();
         $informasiSingkat = InformasiSingkat::getRecord();
         $informasiKetua = InformasiKetua::getRecord();
         $pengurus = Pengurus::orderBy('nama', 'asc')->limit(6)->get();
         
-        // Tambahkan informasi AM terbaru untuk home
+        // Informasi AM terbaru
         $informasiAMTerbaru = InformasiAM::published()
             ->orderBy('is_pinned', 'desc')
             ->orderBy('published_at', 'desc')
             ->limit(3)
+            ->get();
+        
+        // GALERI TERBARU - Tambahkan ini
+        $galeriTerbaru = Galeri::published()
+            ->orderBy('published_at', 'desc')
+            ->limit(6)
             ->get();
         
         return view('frontend.home', compact(
@@ -36,7 +42,8 @@ class FrontendController extends Controller
             'informasiSingkat', 
             'informasiKetua', 
             'pengurus', 
-            'informasiAMTerbaru'
+            'informasiAMTerbaru',
+            'galeriTerbaru' // Tambahkan ini
         ));
     }
 

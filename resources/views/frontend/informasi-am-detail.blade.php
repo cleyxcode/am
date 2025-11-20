@@ -122,7 +122,7 @@
             <!-- Article Content -->
             <div class="bg-white rounded-2xl shadow-lg p-8 prose prose-lg max-w-none">
                 <div class="text-gray-800 leading-relaxed">
-                    {!! nl2br(e($informasi->isi)) !!}
+                    {!! nl2br($informasi->isi) !!}
                 </div>
             </div>
 

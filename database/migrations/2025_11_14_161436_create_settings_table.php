@@ -16,10 +16,7 @@ return new class extends Migration
             $table->string('ranting_nama');
             $table->string('logo')->nullable();
             $table->string('banner_desa')->nullable();
-            $table->string('facebook')->nullable();
-            $table->string('whatsapp')->nullable();
-            $table->string('instagram')->nullable();
-            $table->string('tiktok')->nullable();
+         
             $table->timestamps();
         });
     }

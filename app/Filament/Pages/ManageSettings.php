@@ -34,6 +34,10 @@ class ManageSettings extends Page
             'ranting_nama' => $record->ranting_nama,
             'logo' => $record->logo,
             'banner_desa' => $record->banner_desa,
+            'facebook' => $record->facebook,
+            'instagram' => $record->instagram,
+            'whatsapp' => $record->whatsapp,
+            'tiktok' => $record->tiktok,
         ]);
     }
 
@@ -80,6 +84,80 @@ class ManageSettings extends Page
                             ->helperText('Upload banner desa (maksimal 2MB, disarankan 16:9)'),
                     ])
                     ->columns(1),
+
+                // SECTION SOSIAL MEDIA BARU
+                Forms\Components\Section::make('Media Sosial')
+                    ->description('Link media sosial untuk ditampilkan di footer website')
+                    ->schema([
+                        Forms\Components\Grid::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('facebook')
+                                    ->label('Facebook')
+                                    ->placeholder('https://facebook.com/username')
+                                    ->maxLength(255)
+                                    ->prefixIcon('heroicon-m-globe-alt')
+                                    ->helperText('Masukkan URL lengkap Facebook')
+                                    ->columnSpan(1),
+
+                                Forms\Components\TextInput::make('instagram')
+                                    ->label('Instagram')
+                                    ->placeholder('https://instagram.com/username')
+                                    ->maxLength(255)
+                                    ->prefixIcon('heroicon-m-camera')
+                                    ->helperText('Masukkan URL lengkap Instagram')
+                                    ->columnSpan(1),
+                            ])
+                            ->columns(2),
+
+                        Forms\Components\Grid::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('whatsapp')
+                                    ->label('WhatsApp')
+                                    ->placeholder('6281234567890')
+                                    ->maxLength(20)
+                                    ->prefixIcon('heroicon-m-chat-bubble-left-right')
+                                    ->helperText('Masukkan nomor WhatsApp (contoh: 6281234567890)')
+                                    ->columnSpan(1),
+
+                                Forms\Components\TextInput::make('tiktok')
+                                    ->label('TikTok')
+                                    ->placeholder('https://tiktok.com/@username')
+                                    ->maxLength(255)
+                                    ->prefixIcon('heroicon-m-musical-note')
+                                    ->helperText('Masukkan URL lengkap TikTok')
+                                    ->columnSpan(1),
+                            ])
+                            ->columns(2),
+
+                        // Preview Sosial Media
+                        Forms\Components\Placeholder::make('social_preview')
+                            ->label('Preview Media Sosial')
+                            ->content(function ($get) {
+                                $socials = [];
+                                
+                                if ($get('facebook')) {
+                                    $socials[] = '🔵 Facebook: ' . $get('facebook');
+                                }
+                                if ($get('instagram')) {
+                                    $socials[] = '📷 Instagram: ' . $get('instagram');
+                                }
+                                if ($get('whatsapp')) {
+                                    $socials[] = '💚 WhatsApp: ' . $get('whatsapp');
+                                }
+                                if ($get('tiktok')) {
+                                    $socials[] = '🎵 TikTok: ' . $get('tiktok');
+                                }
+
+                                if (empty($socials)) {
+                                    return 'Belum ada media sosial yang diatur. Link akan ditampilkan di footer website.';
+                                }
+
+                                return implode('\n', $socials);
+                            })
+                            ->helperText('Preview bagaimana link media sosial akan ditampilkan di website.')
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(1),
             ])
             ->statePath('data');
     }
@@ -109,7 +187,7 @@ class ManageSettings extends Page
         Notification::make()
             ->success()
             ->title('Berhasil Disimpan')
-            ->body('Pengaturan website telah diperbarui.')
+            ->body('Pengaturan website dan media sosial telah diperbarui.')
             ->send();
     }
 }
